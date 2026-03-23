@@ -1,52 +1,79 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
-import { PIECES } from '@/lib/chess/pieces';
-import { singlePieceBoard, getValidMoves, squareToLabel } from '@/lib/chess/boardUtils';
+import { PIECES, getPieceSymbol } from '@/lib/chess/pieces';
+import { startingBoard, singlePieceBoard, getValidMoves, squareToLabel } from '@/lib/chess/boardUtils';
 import type { PieceInfo } from '@/types/chess';
 
+const FULL_BOARD = startingBoard().squares;
+
+// Pick the most central white starting square for each piece
+function getStartSquare(piece: PieceInfo) {
+  const whites = piece.startingSquares.filter(s => s.row >= 4);
+  if (whites.length === 0) return piece.startingSquares[0];
+  // For pawns (8 squares), pick col 3 (d-pawn)
+  const center = whites.find(s => s.col === 3) ?? whites[Math.floor(whites.length / 2)];
+  return center;
+}
+
 export default function PiecesPage() {
-  const [activePiece, setActivePiece] = useState<PieceInfo>(PIECES[0]);
-  const [pieceRow, setPieceRow] = useState(3);
-  const [pieceCol, setPieceCol] = useState(3);
-  const [visitedSquares, setVisitedSquares] = useState<Set<string>>(new Set(['3-3']));
+  const [activePieceInfo, setActivePieceInfo] = useState<PieceInfo | null>(null);
+  const [pieceRow, setPieceRow] = useState(0);
+  const [pieceCol, setPieceCol] = useState(0);
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
+  const [visitedSquares, setVisitedSquares] = useState<Set<string>>(new Set());
 
-  const board = singlePieceBoard(
-    { type: activePiece.type, color: 'white' },
-    { row: pieceRow, col: pieceCol }
+  const singleBoard = useMemo(
+    () => activePieceInfo
+      ? singlePieceBoard({ type: activePieceInfo.type, color: 'white' }, { row: pieceRow, col: pieceCol }).squares
+      : null,
+    [activePieceInfo, pieceRow, pieceCol]
   );
-  const validMoves = getValidMoves(board.squares, { row: pieceRow, col: pieceCol });
-  const validSet = new Set(validMoves.map(m => `${m.row}-${m.col}`));
+  const validMoves = useMemo(
+    () => singleBoard ? getValidMoves(singleBoard, { row: pieceRow, col: pieceCol }) : [],
+    [singleBoard, pieceRow, pieceCol]
+  );
+  const validSet = useMemo(
+    () => new Set(validMoves.map(m => `${m.row}-${m.col}`)),
+    [validMoves]
+  );
 
-  const handleSelectPiece = useCallback((piece: PieceInfo) => {
-    setActivePiece(piece);
-    setPieceRow(3);
-    setPieceCol(3);
-    setVisitedSquares(new Set(['3-3']));
+  const enterPieceMode = useCallback((piece: PieceInfo) => {
+    const sq = getStartSquare(piece);
+    setActivePieceInfo(piece);
+    setPieceRow(sq.row);
+    setPieceCol(sq.col);
     setMoveHistory([]);
+    setVisitedSquares(new Set([`${sq.row}-${sq.col}`]));
   }, []);
 
-  const handleSquareClick = useCallback((row: number, col: number) => {
+  const handleFullBoardClick = useCallback((row: number, col: number) => {
+    const piece = FULL_BOARD[row][col];
+    if (!piece) return;
+    const info = PIECES.find(p => p.type === piece.type);
+    if (info) enterPieceMode(info);
+  }, [enterPieceMode]);
+
+  const handleSingleBoardClick = useCallback((row: number, col: number) => {
     if (row === pieceRow && col === pieceCol) return;
+    if (!validSet.has(`${row}-${col}`)) return;
     const from = squareToLabel({ row: pieceRow, col: pieceCol });
     const to = squareToLabel({ row, col });
     setMoveHistory(prev => [...prev, `${from}→${to}`].slice(-6));
     setVisitedSquares(prev => new Set([...prev, `${row}-${col}`]));
     setPieceRow(row);
     setPieceCol(col);
-  }, [pieceRow, pieceCol]);
+  }, [pieceRow, pieceCol, validSet]);
 
   const handleReset = useCallback(() => {
-    setPieceRow(3);
-    setPieceCol(3);
-    setVisitedSquares(new Set(['3-3']));
+    setActivePieceInfo(null);
     setMoveHistory([]);
+    setVisitedSquares(new Set());
   }, []);
 
-  const currentSquare = squareToLabel({ row: pieceRow, col: pieceCol });
+  const currentSquare = activePieceInfo ? squareToLabel({ row: pieceRow, col: pieceCol }) : null;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -63,7 +90,7 @@ export default function PiecesPage() {
             </span>
           </h1>
           <p className="text-text-secondary text-sm">
-            Pick a piece below, then click any square on the board to place it and explore where it can move!
+            Click any piece on the board to learn about it and see where it can move!
           </p>
         </div>
 
@@ -72,11 +99,11 @@ export default function PiecesPage() {
           {PIECES.map(piece => (
             <motion.button
               key={piece.id}
-              onClick={() => handleSelectPiece(piece)}
+              onClick={() => enterPieceMode(piece)}
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex flex-col items-center gap-1 px-2 sm:px-4 py-3 rounded-2xl border-2 transition-colors min-w-[64px] sm:min-w-[80px] ${
-                activePiece.id === piece.id
+              className={`flex flex-col items-center gap-1 px-2 sm:px-4 py-3 rounded-2xl border-2 transition-colors min-w-[64px] sm:min-w-[80px] cursor-grab active:cursor-grabbing touch-manipulation ${
+                activePieceInfo?.id === piece.id
                   ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20 shadow-lg'
                   : 'border-amber-900/20 dark:border-amber-200/10 bg-background-secondary hover:border-amber-400/50'
               }`}
@@ -95,53 +122,73 @@ export default function PiecesPage() {
 
           {/* Left panel */}
           <div className="w-full bg-background-secondary border-2 border-amber-900/20 dark:border-amber-200/10 rounded-2xl p-5 flex flex-col gap-4">
-
-            <div className="text-center">
-              <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait">
+              {activePieceInfo ? (
                 <motion.div
-                  key={activePiece.id}
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.7 }}
-                  transition={{ duration: 0.18 }}
-                  className="text-6xl sm:text-7xl leading-none mb-3"
-                  style={{ filter: 'drop-shadow(0 4px 12px rgba(245,200,66,0.35))' }}
-                >
-                  {activePiece.symbol}
-                </motion.div>
-              </AnimatePresence>
-              <h2 className="text-xl font-extrabold text-text-primary">{activePiece.name}</h2>
-              <p className="text-amber-500 text-xs font-semibold mt-1">{activePiece.tagline}</p>
-              <div className="inline-flex items-center gap-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-full px-3 py-1 text-xs font-bold text-amber-600 dark:text-amber-400 mt-2">
-                {activePiece.emoji}{' '}
-                {activePiece.pointValue > 0 ? `${activePiece.pointValue} points` : 'Most Important'}
-              </div>
-            </div>
-
-            <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
-
-            <div>
-              <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">How It Moves</div>
-              <p className="text-sm text-text-secondary leading-relaxed">{activePiece.movementDescription}</p>
-            </div>
-
-            <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
-
-            <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-xl p-4 text-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`${pieceRow}-${pieceCol}-${activePiece.id}`}
-                  initial={{ opacity: 0, y: -6 }}
+                  key={activePieceInfo.id}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-extrabold text-amber-500"
+                  exit={{ opacity: 0, y: -8 }}
+                  className="flex flex-col gap-4"
                 >
-                  {validMoves.length}
+                  <div className="text-center">
+                    <div
+                      className="text-6xl sm:text-7xl leading-none mb-3"
+                      style={{ filter: 'drop-shadow(0 4px 12px rgba(245,200,66,0.35))' }}
+                    >
+                      {activePieceInfo.symbol}
+                    </div>
+                    <h2 className="text-xl font-extrabold text-text-primary">{activePieceInfo.name}</h2>
+                    <p className="text-amber-500 text-xs font-semibold mt-1">{activePieceInfo.tagline}</p>
+                    <div className="inline-flex items-center gap-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-full px-3 py-1 text-xs font-bold text-amber-600 dark:text-amber-400 mt-2">
+                      {activePieceInfo.emoji}{' '}
+                      {activePieceInfo.pointValue > 0 ? `${activePieceInfo.pointValue} points` : 'Most Important'}
+                    </div>
+                  </div>
+
+                  <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
+
+                  <div>
+                    <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">How It Moves</div>
+                    <p className="text-sm text-text-secondary leading-relaxed">{activePieceInfo.movementDescription}</p>
+                  </div>
+
+                  {currentSquare && (
+                    <>
+                      <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
+                      <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-xl p-4 text-center">
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${currentSquare}-${validMoves.length}`}
+                            initial={{ opacity: 0, y: -6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-3xl font-extrabold text-amber-500"
+                          >
+                            {validMoves.length}
+                          </motion.div>
+                        </AnimatePresence>
+                        <div className="text-xs text-text-muted mt-1">
+                          moves from <span className="text-amber-500 font-semibold">{currentSquare}</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
-              </AnimatePresence>
-              <div className="text-xs text-text-muted mt-1">
-                moves from <span className="text-amber-500 font-semibold">{currentSquare}</span>
-              </div>
-            </div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center gap-3 py-8 text-center"
+                >
+                  <div className="text-5xl opacity-30">♟</div>
+                  <p className="text-sm text-text-secondary">
+                    Click any piece on the board to learn about it!
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Board */}
@@ -163,32 +210,64 @@ export default function PiecesPage() {
               {Array.from({ length: 8 }, (_, row) =>
                 Array.from({ length: 8 }, (_, col) => {
                   const isLight = (row + col) % 2 === 0;
+
+                  if (!activePieceInfo) {
+                    // Full starting board — click a piece to enter single-piece mode
+                    const piece = FULL_BOARD[row][col];
+                    return (
+                      <div
+                        key={`${row}-${col}`}
+                        onClick={() => handleFullBoardClick(row, col)}
+                        className="group relative flex items-center justify-center select-none transition-[filter] duration-100 hover:brightness-110 touch-manipulation"
+                        style={{
+                          background: isLight ? '#F0D9B5' : '#B58863',
+                          cursor: piece ? 'pointer' : 'default',
+                        }}
+                      >
+                        {piece && (
+                          <span
+                            className="leading-none transition-transform duration-100 group-hover:scale-110"
+                            style={{
+                              fontSize: 'clamp(20px, 5.5vw, 40px)',
+                              filter:
+                                'drop-shadow(0 0 3px rgba(0,0,0,0.95)) drop-shadow(0 0 1px rgba(0,0,0,0.8)) drop-shadow(0 2px 5px rgba(0,0,0,0.6))',
+                            }}
+                          >
+                            {getPieceSymbol(piece.type, piece.color)}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  // Single-piece mode
                   const isSelected = row === pieceRow && col === pieceCol;
                   const isValid = validSet.has(`${row}-${col}`);
                   return (
                     <div
                       key={`${row}-${col}`}
-                      onClick={() => handleSquareClick(row, col)}
-                      className="relative flex items-center justify-center cursor-pointer select-none"
+                      onClick={() => handleSingleBoardClick(row, col)}
+                      className="relative flex items-center justify-center select-none touch-manipulation"
                       style={{
                         background: isSelected
-                          ? 'rgba(246,246,105,0.85)'
+                          ? 'rgba(29, 78, 216, 0.92)'
                           : isLight ? '#F0D9B5' : '#B58863',
-                        transition: 'filter 0.1s',
+                        cursor: isValid ? 'pointer' : 'default',
                       }}
                     >
                       {isSelected && (
                         <motion.span
-                          key={`piece-${activePiece.id}`}
+                          key={`${activePieceInfo.id}-${pieceRow}-${pieceCol}`}
                           initial={{ scale: 0.5 }}
                           animate={{ scale: 1 }}
                           className="leading-none"
                           style={{
-                            fontSize: 'clamp(20px, 5vw, 36px)',
-                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))',
+                            fontSize: 'clamp(28px, 8vw, 52px)',
+                            filter:
+                              'drop-shadow(0 0 4px rgba(0,0,0,0.95)) drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 3px 8px rgba(0,0,0,0.6))',
                           }}
                         >
-                          {activePiece.symbol}
+                          {activePieceInfo.symbol}
                         </motion.span>
                       )}
                       {isValid && (
@@ -198,8 +277,12 @@ export default function PiecesPage() {
                           className="absolute inset-0 flex items-center justify-center pointer-events-none"
                         >
                           <div
-                            className="rounded-full bg-black/20"
-                            style={{ width: '32%', height: '32%' }}
+                            className="rounded-full"
+                            style={{
+                              width: '36%',
+                              height: '36%',
+                              background: 'rgba(29, 78, 216, 0.6)',
+                            }}
                           />
                         </motion.div>
                       )}
@@ -209,33 +292,35 @@ export default function PiecesPage() {
               )}
             </div>
             <p className="text-xs text-text-muted text-center">
-              {validMoves.length} moves from{' '}
-              <span className="text-amber-500 font-semibold">{currentSquare}</span>{' '}
-              — click any square to move there
+              {activePieceInfo && currentSquare
+                ? `${validMoves.length} moves from ${currentSquare} — click a dot to move`
+                : 'Click any piece to learn about it'}
             </p>
           </div>
 
           {/* Right panel */}
           <div className="w-full bg-background-secondary border-2 border-amber-900/20 dark:border-amber-200/10 rounded-2xl p-5 flex flex-col gap-4">
 
-            <div>
-              <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Fun Fact</div>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePiece.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="bg-amber-50/50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-xl p-4 text-sm text-text-secondary leading-relaxed"
-                >
-                  {activePiece.funFact}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            {activePieceInfo && (
+              <div>
+                <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Fun Fact</div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activePieceInfo.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="bg-amber-50/50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-xl p-4 text-sm text-text-secondary leading-relaxed"
+                  >
+                    {activePieceInfo.funFact}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            )}
 
             {moveHistory.length > 0 && (
               <>
-                <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
+                {activePieceInfo && <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />}
                 <div>
                   <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">
                     Move History
@@ -256,7 +341,7 @@ export default function PiecesPage() {
               </>
             )}
 
-            <div className="h-px bg-amber-900/10 dark:bg-amber-200/10" />
+            <div className={moveHistory.length > 0 || activePieceInfo ? 'h-px bg-amber-900/10 dark:bg-amber-200/10' : ''} />
 
             <div>
               <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">
@@ -290,7 +375,7 @@ export default function PiecesPage() {
               whileTap={{ scale: 0.98 }}
               className="w-full py-2.5 rounded-xl border-2 border-amber-400/30 bg-amber-50/5 text-amber-500 font-bold text-sm hover:bg-amber-50/10 transition-colors"
             >
-              ↺ Reset to Center
+              ↺ {activePieceInfo ? 'Back to Full Board' : 'Reset Board'}
             </motion.button>
           </div>
 
