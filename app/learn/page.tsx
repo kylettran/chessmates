@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
 export default function LearnPage() {
-  redirect('/login');
+  return <div>Learn — coming soon!</div>;
 }

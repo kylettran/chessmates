@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
 export default function RulesPage() {
-  redirect('/login');
+  return <div>Rules — coming soon!</div>;
 }
