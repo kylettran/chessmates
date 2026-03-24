@@ -7,11 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { UserButton, useUser } from '@clerk/nextjs';
 
 const NAV_LINKS = [
-  { href: '/learn', label: 'Learn', emoji: '📚' },
   { href: '/pieces', label: 'Pieces', emoji: '♟️' },
+  { href: '/learn', label: 'Learn', emoji: '📚' },
   { href: '/rules', label: 'Rules', emoji: '📜' },
   { href: '/puzzles', label: 'Puzzles', emoji: '🧩' },
   { href: '/faq', label: 'Ask Anything', emoji: '💬' },
+  { href: '/play', label: 'Play Chess', emoji: '🎮' },
 ];
 
 export function Navbar() {

@@ -285,15 +285,441 @@ const DEMOS: Record<string, Demo> = {
       },
     ],
   },
+
+  // ── Opening Demos ──────────────────────────────────────────────────────────
+  italian: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wN', type: 'N', color: 'white' }, { id: 'wB', type: 'B', color: 'white' },
+      { id: 'bPe', type: 'P', color: 'black' }, { id: 'bN', type: 'N', color: 'black' },
+      { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 4, col: 2 },
+          { pieceId: 'bPe', row: 3, col: 4 }, { pieceId: 'bN', row: 2, col: 2 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 4, color: 'rgba(59,130,246,0.4)' },
+          { row: 5, col: 5, color: 'rgba(59,130,246,0.4)' },
+          { row: 4, col: 2, color: 'rgba(251,191,36,0.7)' },
+        ],
+        caption: '1.e4 e5 2.Nf3 Nc6 3.Bc4 — control center, develop pieces',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 4, col: 2 },
+          { pieceId: 'bPe', row: 3, col: 4 }, { pieceId: 'bN', row: 2, col: 2 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 2, color: 'rgba(251,191,36,0.8)' },
+          { row: 3, col: 3, color: 'rgba(251,191,36,0.2)' },
+          { row: 2, col: 4, color: 'rgba(251,191,36,0.2)' },
+          { row: 1, col: 5, color: 'rgba(220,38,38,0.6)' },
+        ],
+        caption: 'White\'s bishop eyes the vulnerable f7 pawn!',
+        badge: 'ITALIAN',
+      },
+    ],
+  },
+
+  ruylopez: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wN', type: 'N', color: 'white' }, { id: 'wB', type: 'B', color: 'white' },
+      { id: 'bPe', type: 'P', color: 'black' }, { id: 'bN', type: 'N', color: 'black' },
+      { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 1, col: 1 },
+          { pieceId: 'bPe', row: 3, col: 4 }, { pieceId: 'bN', row: 2, col: 2 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 1, col: 1, color: 'rgba(251,191,36,0.7)' },
+          { row: 2, col: 2, color: 'rgba(220,38,38,0.4)' },
+        ],
+        caption: '1.e4 e5 2.Nf3 Nc6 3.Bb5 — the Spanish Opening',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 1, col: 1 },
+          { pieceId: 'bPe', row: 3, col: 4 }, { pieceId: 'bN', row: 2, col: 2 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 1, col: 1, color: 'rgba(251,191,36,0.8)' },
+          { row: 2, col: 2, color: 'rgba(220,38,38,0.6)' },
+          { row: 3, col: 4, color: 'rgba(220,38,38,0.25)' },
+        ],
+        caption: 'Bishop indirectly pressures the pawn on e5 by attacking its defender!',
+        badge: 'RUY LÓPEZ',
+      },
+    ],
+  },
+
+  sicilian: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wPd', type: 'P', color: 'white' }, { id: 'wN', type: 'N', color: 'white' },
+      { id: 'bPc', type: 'P', color: 'black' }, { id: 'bPd', type: 'P', color: 'black' },
+      { id: 'bN', type: 'N', color: 'black' }, { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 6, col: 3 }, { pieceId: 'wN', row: 5, col: 5 },
+          { pieceId: 'bPc', row: 3, col: 2 }, { pieceId: 'bPd', row: 2, col: 3 },
+          { pieceId: 'bN', row: 2, col: 5 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 3, col: 2, color: 'rgba(59,130,246,0.6)' },
+          { row: 4, col: 3, color: 'rgba(59,130,246,0.2)' },
+        ],
+        caption: '1.e4 c5 — Black fights for d4 from the flank, not the center',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 3, col: 3 }, { pieceId: 'wN', row: 3, col: 3 },
+          { pieceId: 'bPc', row: 3, col: 2 }, { pieceId: 'bPd', row: 2, col: 3 },
+          { pieceId: 'bN', row: 2, col: 5 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 3, col: 2, color: 'rgba(59,130,246,0.5)' },
+          { row: 4, col: 3, color: 'rgba(251,146,60,0.5)' },
+          { row: 4, col: 4, color: 'rgba(251,146,60,0.5)' },
+        ],
+        caption: 'Most popular opening at all levels — creates rich, unbalanced positions!',
+        badge: 'SICILIAN',
+      },
+    ],
+  },
+
+  french: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wPd', type: 'P', color: 'white' }, { id: 'bPe', type: 'P', color: 'black' },
+      { id: 'bPd', type: 'P', color: 'black' }, { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 4, col: 3 }, { pieceId: 'bPe', row: 2, col: 4 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 2, col: 4, color: 'rgba(59,130,246,0.5)' },
+          { row: 3, col: 3, color: 'rgba(59,130,246,0.5)' },
+        ],
+        caption: '1.e4 e6 2.d4 d5 — Black builds a solid pawn chain',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 3, col: 4 },
+          { pieceId: 'wPd', row: 4, col: 3 }, { pieceId: 'bPe', row: 2, col: 4 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 3, col: 4, color: 'rgba(251,146,60,0.6)' },
+          { row: 3, col: 3, color: 'rgba(220,38,38,0.4)' },
+          { row: 2, col: 4, color: 'rgba(220,38,38,0.25)' },
+        ],
+        caption: 'White pushes to e5 — space advantage but Black is solid behind the chain!',
+        badge: 'FRENCH',
+      },
+    ],
+  },
+
+  queensgambit: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPd', type: 'P', color: 'white' },
+      { id: 'wPc', type: 'P', color: 'white' }, { id: 'wN', type: 'N', color: 'white' },
+      { id: 'bPd', type: 'P', color: 'black' }, { id: 'bN', type: 'N', color: 'black' },
+      { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wPc', row: 4, col: 2 }, { pieceId: 'wN', row: 5, col: 5 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bN', row: 2, col: 5 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 2, color: 'rgba(251,191,36,0.7)' },
+          { row: 3, col: 3, color: 'rgba(59,130,246,0.4)' },
+        ],
+        caption: '1.d4 d5 2.c4 — White offers the c-pawn to control the center',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wPc', row: 4, col: 2 }, { pieceId: 'wN', row: 5, col: 5 },
+          { pieceId: 'bPd', row: 4, col: 2 }, { pieceId: 'bN', row: 2, col: 5 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 2, color: 'rgba(34,197,94,0.6)' },
+          { row: 4, col: 3, color: 'rgba(251,146,60,0.5)' },
+          { row: 3, col: 3, color: 'rgba(251,146,60,0.2)' },
+        ],
+        caption: 'Accepted (QGA) or Declined — both lead to exciting games!',
+        badge: "QUEEN'S GAMBIT",
+      },
+    ],
+  },
+
+  london: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPd', type: 'P', color: 'white' },
+      { id: 'wN', type: 'N', color: 'white' }, { id: 'wB', type: 'B', color: 'white' },
+      { id: 'bPd', type: 'P', color: 'black' }, { id: 'bN', type: 'N', color: 'black' },
+      { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 4, col: 5 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bN', row: 2, col: 5 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 5, color: 'rgba(59,130,246,0.6)' },
+          { row: 4, col: 3, color: 'rgba(59,130,246,0.3)' },
+        ],
+        caption: '1.d4 Nf6 2.Nf3 d5 3.Bf4 — solid and reliable for White',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wN', row: 5, col: 5 }, { pieceId: 'wB', row: 4, col: 5 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bN', row: 2, col: 5 },
+          { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 4, col: 5, color: 'rgba(251,191,36,0.7)' },
+          { row: 3, col: 6, color: 'rgba(251,191,36,0.3)' },
+          { row: 2, col: 7, color: 'rgba(251,191,36,0.3)' },
+          { row: 5, col: 4, color: 'rgba(251,191,36,0.3)' },
+          { row: 6, col: 3, color: 'rgba(251,191,36,0.3)' },
+        ],
+        caption: 'Bishop actively develops outside pawns — harder to trade off!',
+        badge: 'LONDON',
+      },
+    ],
+  },
+
+  carokann: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wPd', type: 'P', color: 'white' }, { id: 'bPc', type: 'P', color: 'black' },
+      { id: 'bPd', type: 'P', color: 'black' }, { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 4, col: 3 }, { pieceId: 'bPc', row: 2, col: 2 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 2, col: 2, color: 'rgba(59,130,246,0.5)' },
+          { row: 3, col: 3, color: 'rgba(59,130,246,0.5)' },
+        ],
+        caption: '1.e4 c6 2.d4 d5 — Black prepares d5 solidly with c6 support',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 4, col: 3 }, { pieceId: 'bPc', row: 2, col: 2 },
+          { pieceId: 'bPd', row: 3, col: 3 }, { pieceId: 'bK', row: 0, col: 4 },
+        ],
+        highlights: [
+          { row: 3, col: 3, color: 'rgba(34,197,94,0.5)' },
+          { row: 2, col: 2, color: 'rgba(34,197,94,0.4)' },
+          { row: 4, col: 3, color: 'rgba(220,38,38,0.25)' },
+          { row: 4, col: 4, color: 'rgba(220,38,38,0.25)' },
+        ],
+        caption: 'More solid than the French — Black\'s light-squared bishop stays active!',
+        badge: 'CARO-KANN',
+      },
+    ],
+  },
+
+  kingsindian: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPd', type: 'P', color: 'white' },
+      { id: 'wPc', type: 'P', color: 'white' }, { id: 'wN', type: 'N', color: 'white' },
+      { id: 'bN', type: 'N', color: 'black' }, { id: 'bPg', type: 'P', color: 'black' },
+      { id: 'bB', type: 'B', color: 'black' }, { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wPc', row: 4, col: 2 }, { pieceId: 'wN', row: 5, col: 2 },
+          { pieceId: 'bN', row: 2, col: 5 }, { pieceId: 'bPg', row: 2, col: 6 },
+          { pieceId: 'bB', row: 1, col: 6 }, { pieceId: 'bK', row: 1, col: 7 },
+        ],
+        highlights: [
+          { row: 1, col: 6, color: 'rgba(59,130,246,0.6)' },
+          { row: 2, col: 6, color: 'rgba(59,130,246,0.3)' },
+        ],
+        caption: '1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 — Black fianchettoes the kingside bishop',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPd', row: 4, col: 3 },
+          { pieceId: 'wPc', row: 4, col: 2 }, { pieceId: 'wN', row: 5, col: 2 },
+          { pieceId: 'bN', row: 2, col: 5 }, { pieceId: 'bPg', row: 2, col: 6 },
+          { pieceId: 'bB', row: 1, col: 6 }, { pieceId: 'bK', row: 1, col: 7 },
+        ],
+        highlights: [
+          { row: 1, col: 6, color: 'rgba(251,191,36,0.7)' },
+          { row: 2, col: 5, color: 'rgba(251,191,36,0.25)' },
+          { row: 3, col: 4, color: 'rgba(251,191,36,0.25)' },
+          { row: 4, col: 3, color: 'rgba(220,38,38,0.35)' },
+          { row: 5, col: 2, color: 'rgba(220,38,38,0.35)' },
+        ],
+        caption: 'The bishop bites the center from g7 — Black counterattacks later!',
+        badge: "KING'S INDIAN",
+      },
+    ],
+  },
+
+  // ── Phase Concept Demos ────────────────────────────────────────────────────
+  opening_phase: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wPe', type: 'P', color: 'white' },
+      { id: 'wPd', type: 'P', color: 'white' }, { id: 'wNg', type: 'N', color: 'white' },
+      { id: 'wNb', type: 'N', color: 'white' }, { id: 'wBf', type: 'B', color: 'white' },
+      { id: 'bK', type: 'K', color: 'black' }, { id: 'bPe', type: 'P', color: 'black' },
+      { id: 'bN', type: 'N', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 4 }, { pieceId: 'wPe', row: 6, col: 4 },
+          { pieceId: 'wPd', row: 6, col: 3 }, { pieceId: 'wNg', row: 7, col: 6 },
+          { pieceId: 'wNb', row: 7, col: 1 }, { pieceId: 'wBf', row: 7, col: 5 },
+          { pieceId: 'bK', row: 0, col: 4 }, { pieceId: 'bPe', row: 1, col: 4 },
+          { pieceId: 'bN', row: 0, col: 1 },
+        ],
+        highlights: [
+          { row: 4, col: 3, color: 'rgba(251,191,36,0.3)' },
+          { row: 4, col: 4, color: 'rgba(251,191,36,0.3)' },
+        ],
+        caption: 'Start: pieces undeveloped, center unpopulated...',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 6 }, { pieceId: 'wPe', row: 4, col: 4 },
+          { pieceId: 'wPd', row: 4, col: 3 }, { pieceId: 'wNg', row: 5, col: 5 },
+          { pieceId: 'wNb', row: 5, col: 2 }, { pieceId: 'wBf', row: 5, col: 4 },
+          { pieceId: 'bK', row: 0, col: 4 }, { pieceId: 'bPe', row: 3, col: 4 },
+          { pieceId: 'bN', row: 2, col: 2 },
+        ],
+        highlights: [
+          { row: 4, col: 3, color: 'rgba(34,197,94,0.5)' },
+          { row: 4, col: 4, color: 'rgba(34,197,94,0.5)' },
+          { row: 5, col: 5, color: 'rgba(251,191,36,0.4)' },
+          { row: 5, col: 2, color: 'rgba(251,191,36,0.4)' },
+          { row: 7, col: 6, color: 'rgba(251,191,36,0.5)' },
+        ],
+        caption: 'After good opening: center controlled, pieces out, king castled!',
+        badge: 'OPENING DONE',
+      },
+    ],
+  },
+
+  middlegame_phase: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wN', type: 'N', color: 'white' },
+      { id: 'wR', type: 'R', color: 'white' }, { id: 'bK', type: 'K', color: 'black' },
+      { id: 'bQ', type: 'Q', color: 'black' }, { id: 'bR', type: 'R', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 6 }, { pieceId: 'wN', row: 3, col: 3 },
+          { pieceId: 'wR', row: 4, col: 0 }, { pieceId: 'bK', row: 0, col: 6 },
+          { pieceId: 'bQ', row: 2, col: 5 }, { pieceId: 'bR', row: 0, col: 3 },
+        ],
+        highlights: [
+          { row: 3, col: 3, color: 'rgba(59,130,246,0.5)' },
+          { row: 1, col: 4, color: 'rgba(251,146,60,0.5)' },
+          { row: 1, col: 2, color: 'rgba(251,146,60,0.5)' },
+        ],
+        caption: 'Knight threatens a fork — look for tactics every move!',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 6 }, { pieceId: 'wN', row: 1, col: 4 },
+          { pieceId: 'wR', row: 4, col: 0 }, { pieceId: 'bK', row: 0, col: 6 },
+          { pieceId: 'bQ', row: 2, col: 5 }, { pieceId: 'bR', row: 0, col: 3 },
+        ],
+        highlights: [
+          { row: 1, col: 4, color: 'rgba(34,197,94,0.6)' },
+          { row: 0, col: 6, color: 'rgba(220,38,38,0.5)' },
+          { row: 2, col: 5, color: 'rgba(220,38,38,0.5)' },
+        ],
+        caption: 'Fork! Knight attacks king AND queen simultaneously!',
+        badge: 'FORK!',
+      },
+    ],
+  },
+
+  endgame_phase: {
+    pieces: [
+      { id: 'wK', type: 'K', color: 'white' }, { id: 'wP', type: 'P', color: 'white' },
+      { id: 'bK', type: 'K', color: 'black' },
+    ],
+    frames: [
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 7, col: 7 }, { pieceId: 'wP', row: 4, col: 4 },
+          { pieceId: 'bK', row: 2, col: 2 },
+        ],
+        highlights: [{ row: 7, col: 7, color: 'rgba(220,38,38,0.4)' }],
+        caption: 'King hiding in the corner — wasting its power!',
+      },
+      {
+        pieceStates: [
+          { pieceId: 'wK', row: 4, col: 3 }, { pieceId: 'wP', row: 2, col: 4 },
+          { pieceId: 'bK', row: 0, col: 6 },
+        ],
+        highlights: [
+          { row: 4, col: 3, color: 'rgba(34,197,94,0.6)' },
+          { row: 2, col: 4, color: 'rgba(251,191,36,0.5)' },
+          { row: 0, col: 4, color: 'rgba(34,197,94,0.3)' },
+        ],
+        caption: 'King marches forward — escorts the pawn to promotion!',
+        badge: 'ACTIVATE KING',
+      },
+    ],
+  },
 };
 
 // ─── Rule data ───────────────────────────────────────────────────────────────
 
-type Category = 'all' | 'winning' | 'special' | 'draws';
+type Category = 'all' | 'winning' | 'special' | 'draws' | 'openings' | 'concepts';
 
 interface Rule {
   id: string;
-  category: 'winning' | 'special' | 'draws';
+  category: 'winning' | 'special' | 'draws' | 'openings' | 'concepts';
   emoji: string;
   title: string;
   tagline: string;
@@ -358,19 +784,93 @@ const RULES: Rule[] = [
     bullets: ['King vs King — automatic draw', 'King + Bishop vs King — automatic draw', 'King + Knight vs King — automatic draw', 'King + Rook vs King — CAN win, game continues'],
     tip: "Don't trade ALL your pieces even when ahead! Trading down to King + Bishop vs King just gives your opponent a free draw.",
   },
+
+  // ── Openings ────────────────────────────────────────────────────────────────
+  {
+    id: 'italian', category: 'openings', emoji: '🍕', title: 'Italian Game', tagline: 'Classic center control with c3 & d3', color: 'orange',
+    shortDesc: 'One of the oldest openings in chess. White builds a strong center, develops naturally, and often castles kingside for a solid position.',
+    bullets: ['1.e4 e5 2.Nf3 Nc6 3.Bc4 — bishop eyes the f7 pawn', 'Follow with c3 and d3/d4 to build a strong center', 'Castle kingside early for king safety', 'Great for beginners — natural piece development'],
+    tip: 'The Italian is a fantastic first opening to learn. World champions have played it for hundreds of years!',
+  },
+  {
+    id: 'ruylopez', category: 'openings', emoji: '⚔️', title: 'Ruy López', tagline: 'Pressure the defender of e5!', color: 'red',
+    shortDesc: 'Named after a Spanish bishop from the 1500s. White pins the knight that defends e5, aiming to win the center long-term.',
+    bullets: ['1.e4 e5 2.Nf3 Nc6 3.Bb5 — bishop pins the knight', 'White pressures e5 and fights for lasting center control', 'One of the most studied openings at grandmaster level', 'Leads to rich strategic battles'],
+    tip: 'Magnus Carlsen and most world champions have relied on the Ruy López throughout their careers!',
+  },
+  {
+    id: 'sicilian', category: 'openings', emoji: '🗡️', title: 'Sicilian Defense', tagline: "Black's sharpest weapon against e4!", color: 'purple',
+    shortDesc: 'The most popular opening response to 1.e4. Black immediately fights for center control asymmetrically — creating unbalanced, fighting positions.',
+    bullets: ['1.e4 c5 — Black attacks d4 without mirroring White', 'Creates rich, double-edged positions', 'Most popular opening at all levels worldwide', 'Variations: Najdorf, Dragon, Scheveningen, Classical'],
+    tip: 'Bobby Fischer called the Sicilian "best by test." If you want to fight for the win as Black, this is your weapon!',
+  },
+  {
+    id: 'french', category: 'openings', emoji: '🥐', title: 'French Defense', tagline: 'Solid chain, counterattack later!', color: 'blue',
+    shortDesc: 'Black builds a solid pawn chain with e6 and d5, accepting a slightly cramped position in exchange for a rock-solid defense.',
+    bullets: ['1.e4 e6 2.d4 d5 — Black challenges the center', 'Solid and hard to break through', 'Black often counterattacks on the queenside', 'Watch out for the "bad bishop" on c8!'],
+    tip: "The French is perfect if you like long, strategic battles. It's very difficult for opponents to crack!",
+  },
+  {
+    id: 'queensgambit', category: 'openings', emoji: '♛', title: "Queen's Gambit", tagline: "Control the center with a pawn offer!", color: 'amber',
+    shortDesc: "White offers the c-pawn to gain central dominance. It's not really a gambit — the pawn can almost always be regained!",
+    bullets: ["1.d4 d5 2.c4 — White offers the c-pawn", 'Accepted (QGA): Black takes on c4, White regains control', 'Declined (QGD): Black keeps solid pawn structure', 'Popularized globally by Netflix\'s The Queen\'s Gambit'],
+    tip: 'Even if Black accepts the pawn, White usually wins it back with good play. Focus on the center, not the pawn!',
+  },
+  {
+    id: 'london', category: 'openings', emoji: '🎩', title: 'London System', tagline: 'Solid, flexible, and reliable!', color: 'slate',
+    shortDesc: "A solid system for White that works against almost anything Black plays. White develops the bishop to f4 before closing the center.",
+    bullets: ['1.d4 Nf6 2.Nf3 d5 3.Bf4 — active bishop development', 'Works against virtually any Black response', 'Great for players who prefer solid, methodical play', 'Very popular at club level and with world champions'],
+    tip: "Magnus Carlsen uses the London regularly! It's deceptively simple but hides deep strategic ideas.",
+  },
+  {
+    id: 'carokann', category: 'openings', emoji: '🛡️', title: 'Caro-Kann Defense', tagline: 'Solid c6, then d5 — no bad bishops!', color: 'cyan',
+    shortDesc: 'Black responds to 1.e4 with c6, preparing d5 on the next move. More solid than the French — the light-squared bishop stays active.',
+    bullets: ['1.e4 c6 2.d4 d5 — Black prepares d5 with c6 support', 'Black avoids the "bad bishop" problem of the French', 'Very solid and reliable for Black', 'Petrosian and Karpov made this famous with positional mastery'],
+    tip: 'The Caro-Kann is the "mature" alternative to the Sicilian — less sharp but just as effective at the top level!',
+  },
+  {
+    id: 'kingsindian', category: 'openings', emoji: '🔥', title: "King's Indian Defense", tagline: 'Fianchetto and counterattack!', color: 'indigo',
+    shortDesc: "Black lets White build a big center, then fianchettoes the kingside bishop and launches a fierce counterattack.",
+    bullets: ["1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 — bishop fianchettoed to g7", 'Black lets White have the center, then attacks it', 'Creates wild, attacking chess', 'Kasparov and Fischer both loved this opening!'],
+    tip: 'The King\'s Indian is for fighters! Black deliberately lets White grab space, then counterattacks with everything.',
+  },
+
+  // ── Concepts ─────────────────────────────────────────────────────────────────
+  {
+    id: 'opening_phase', category: 'concepts', emoji: '🚀', title: 'The Opening Phase', tagline: 'Develop pieces, control the center, castle!', color: 'emerald',
+    shortDesc: 'The first 10–15 moves of a chess game. Your three goals are simple: control the center, develop your pieces, and get your king to safety.',
+    bullets: ['Control the center — place pawns on d4/e4 (or d5/e5)', 'Develop knights and bishops before rooks and queen', 'Castle early to protect your king', 'Avoid moving the same piece twice in the opening'],
+    tip: 'A bad plan is better than no plan! In the opening, follow the three rules consistently and you will always get a good position.',
+  },
+  {
+    id: 'middlegame_phase', category: 'concepts', emoji: '⚔️', title: 'The Middlegame Phase', tagline: 'Attack, defend, and find tactics!', color: 'red',
+    shortDesc: 'After development is complete, the real chess begins! Look for tactical opportunities (forks, pins, skewers) and improve your worst-placed pieces.',
+    bullets: ['Look for forks — one piece attacking two targets', 'Exploit pins — trapped pieces cannot move', 'Create threats your opponent must respond to', 'Trade pieces when ahead, keep pieces when behind'],
+    tip: 'Every move, ask: "What is my opponent threatening?" Before you attack, make sure your own king is safe!',
+  },
+  {
+    id: 'endgame_phase', category: 'concepts', emoji: '🏁', title: 'The Endgame Phase', tagline: 'King becomes a warrior — promote pawns!', color: 'teal',
+    shortDesc: 'When most pieces are traded off, the endgame begins. Your king becomes a powerful piece — activate it! Pawns racing to promote become critical.',
+    bullets: ['Activate your king — march it to the center', 'Passed pawns (no enemy pawns blocking) are very powerful', 'King + Rook vs lone King: the basic checkmate to know', 'Opposition: kings facing each other with one square between'],
+    tip: 'Most beginners keep their king hiding forever. In the endgame, the king MUST come out and fight!',
+  },
 ];
 
 const CATEGORIES: { id: Category; label: string; emoji: string }[] = [
-  { id: 'all', label: 'All Rules', emoji: '📜' },
-  { id: 'winning', label: 'Winning & Losing', emoji: '👑' },
-  { id: 'special', label: 'Special Moves', emoji: '✨' },
-  { id: 'draws', label: 'Draw Rules', emoji: '🤝' },
+  { id: 'all', label: 'All', emoji: '📜' },
+  { id: 'winning', label: 'Winning', emoji: '👑' },
+  { id: 'special', label: 'Special', emoji: '✨' },
+  { id: 'draws', label: 'Draws', emoji: '🤝' },
+  { id: 'openings', label: 'Openings', emoji: '♟️' },
+  { id: 'concepts', label: 'Concepts', emoji: '🧠' },
 ];
 
 const CATEGORY_META: Record<string, { label: string; textColor: string }> = {
   winning: { label: 'Winning & Losing', textColor: 'text-amber-600 dark:text-amber-400' },
   special: { label: 'Special Move', textColor: 'text-purple-600 dark:text-purple-400' },
   draws: { label: 'Draw Rule', textColor: 'text-blue-600 dark:text-blue-400' },
+  openings: { label: 'Opening', textColor: 'text-orange-600 dark:text-orange-400' },
+  concepts: { label: 'Strategy Concept', textColor: 'text-indigo-600 dark:text-indigo-400' },
 };
 
 const COLORS: Record<string, { bg: string; border: string; badgeBg: string; badgeText: string; dot: string }> = {
@@ -383,6 +883,8 @@ const COLORS: Record<string, { bg: string; border: string; badgeBg: string; badg
   cyan:    { bg: 'bg-cyan-50 dark:bg-cyan-900/20',       border: 'border-cyan-200 dark:border-cyan-800/40',       badgeBg: 'bg-cyan-100 dark:bg-cyan-900/40',     badgeText: 'text-cyan-700 dark:text-cyan-300',   dot: 'bg-cyan-400' },
   slate:   { bg: 'bg-slate-50 dark:bg-slate-800/40',     border: 'border-slate-200 dark:border-slate-700/40',     badgeBg: 'bg-slate-100 dark:bg-slate-800/60',   badgeText: 'text-slate-700 dark:text-slate-300', dot: 'bg-slate-400' },
   teal:    { bg: 'bg-teal-50 dark:bg-teal-900/20',       border: 'border-teal-200 dark:border-teal-800/40',       badgeBg: 'bg-teal-100 dark:bg-teal-900/40',     badgeText: 'text-teal-700 dark:text-teal-300',   dot: 'bg-teal-400' },
+  orange:  { bg: 'bg-orange-50 dark:bg-orange-900/20',   border: 'border-orange-200 dark:border-orange-800/40',   badgeBg: 'bg-orange-100 dark:bg-orange-900/40', badgeText: 'text-orange-700 dark:text-orange-300', dot: 'bg-orange-400' },
+  indigo:  { bg: 'bg-indigo-50 dark:bg-indigo-900/20',   border: 'border-indigo-200 dark:border-indigo-800/40',   badgeBg: 'bg-indigo-100 dark:bg-indigo-900/40', badgeText: 'text-indigo-700 dark:text-indigo-300', dot: 'bg-indigo-400' },
 };
 
 // ─── Demo Board component ─────────────────────────────────────────────────────

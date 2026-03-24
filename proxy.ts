@@ -6,6 +6,7 @@ const isProtectedRoute = createRouteMatcher([
   '/rules(.*)',
   '/puzzles(.*)',
   '/faq(.*)',
+  '/play(.*)',
 ]);
 
 const isPublicRoute = createRouteMatcher([

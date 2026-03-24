@@ -487,10 +487,71 @@ export default function LearnPage() {
         </p>
       </section>
 
+      {/* ── Full Journey Roadmap ── */}
+      <section className="rounded-2xl border border-amber-200/50 dark:border-amber-800/30 bg-background-secondary overflow-hidden">
+        <div className="px-5 pt-5 pb-1">
+          <p className="text-xs font-semibold text-text-secondary/60 uppercase tracking-wider mb-1">
+            Your Chess Journey — 6 Steps to Your First Real Game
+          </p>
+          <p className="text-xs text-text-secondary">
+            Follow this path from zero to playing real games online.
+          </p>
+        </div>
+        <div className="overflow-x-auto pb-5 pt-4 px-5 scrollbar-hide">
+          <div className="flex items-start min-w-max gap-0">
+            {[
+              { step: 1, emoji: '♟️', label: 'Meet the Pieces', sub: 'Learn every piece', href: '/pieces', color: 'amber' },
+              { step: 2, emoji: '📚', label: 'Step-by-Step Lessons', sub: 'Rules, tactics & strategy', href: '/learn', color: 'yellow', active: true },
+              { step: 3, emoji: '📜', label: 'Strategy & Concepts', sub: 'Openings & game phases', href: '/rules', color: 'orange' },
+              { step: 4, emoji: '🧩', label: 'Solve Puzzles', sub: 'Train your eye', href: '/puzzles', color: 'emerald' },
+              { step: 5, emoji: '💬', label: 'Ask Anything', sub: 'AI chess tutor', href: '/faq', color: 'blue' },
+              { step: 6, emoji: '🎮', label: 'Play Chess!', sub: 'Apply everything', href: '/play', color: 'purple' },
+            ].map((item, i) => (
+              <div key={item.step} className="flex items-center">
+                <Link href={item.href} className="flex flex-col items-center gap-2 group w-[88px]">
+                  <motion.div
+                    whileHover={{ scale: 1.08, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm border-2 transition-all ${
+                      item.active
+                        ? 'bg-amber-400 dark:bg-amber-500 border-amber-500 dark:border-amber-400 text-white shadow-amber-300/50'
+                        : 'bg-background border-amber-200/60 dark:border-amber-800/50 group-hover:border-amber-300 dark:group-hover:border-amber-600/70 group-hover:bg-amber-50 dark:group-hover:bg-amber-900/20'
+                    }`}
+                  >
+                    {item.emoji}
+                  </motion.div>
+                  <div className="text-center">
+                    <div className={`text-[10px] font-bold leading-tight ${
+                      item.active ? 'text-amber-600 dark:text-amber-400' : 'text-text-primary group-hover:text-amber-600 dark:group-hover:text-amber-400'
+                    } transition-colors`}>
+                      {item.label}
+                    </div>
+                    <div className="text-[9px] text-text-secondary/60 leading-tight mt-0.5">{item.sub}</div>
+                  </div>
+                  <div className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                    item.active
+                      ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                      : 'bg-background text-text-secondary/50'
+                  }`}>
+                    Step {item.step}
+                  </div>
+                </Link>
+                {i < 5 && (
+                  <div className="flex items-center mb-6 mx-1 shrink-0">
+                    <div className="w-6 h-0.5 bg-amber-200/70 dark:bg-amber-800/50" />
+                    <span className="text-amber-300/70 dark:text-amber-700/70 text-xs">›</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Learning Path ── */}
       <section className="bg-background-secondary rounded-2xl px-5 py-4 border border-amber-200/40 dark:border-amber-800/30">
         <p className="text-xs font-semibold text-text-secondary/60 uppercase tracking-wider mb-4">
-          Your Learning Path
+          Lesson Progress
         </p>
         <LearningPath
           lessons={LESSONS}
@@ -584,6 +645,12 @@ export default function LearnPage() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-amber-200 dark:border-amber-700/60 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-all"
           >
             📜 Browse Rules
+          </Link>
+          <Link
+            href="/play"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-purple-200 dark:border-purple-700/60 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+          >
+            🎮 Play Chess
           </Link>
         </div>
       </section>
