@@ -1079,9 +1079,11 @@ function RuleCard({ rule, learned, onToggle }: { rule: Rule; learned: boolean; o
             <div className="px-5 pb-5 pt-1 border-t border-black/5 dark:border-white/5">
               {/* Animated demo board */}
               {demo && (
-                <div className="mb-4 flex justify-center">
-                  <div className={`rounded-xl ${c.badgeBg} px-4 py-3 inline-block`}>
-                    <DemoBoard demo={demo} />
+                <div className="mb-4 overflow-x-auto">
+                  <div className="flex justify-center">
+                    <div className={`rounded-xl ${c.badgeBg} px-4 py-3 inline-block`}>
+                      <DemoBoard demo={demo} />
+                    </div>
                   </div>
                 </div>
               )}
@@ -1196,24 +1198,26 @@ export default function RulesPage() {
 
       {/* Category filter */}
       <section className="px-4 sm:px-6 pb-6">
-        <div className="max-w-2xl mx-auto flex gap-2 flex-wrap">
-          {CATEGORIES.map(cat => {
-            const count = cat.id === 'all' ? RULES.length : RULES.filter(r => r.category === cat.id).length;
-            const isActive = activeCategory === cat.id;
-            return (
-              <motion.button key={cat.id} onClick={() => setActiveCategory(cat.id)} whileTap={{ scale: 0.95 }}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${
-                  isActive ? 'bg-blue-500 border-blue-500 text-white shadow-md' : 'bg-white dark:bg-background-secondary border-border text-text-secondary hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
-                }`}
-              >
-                <span>{cat.emoji}</span>
-                <span>{cat.label}</span>
-                <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${isActive ? 'bg-white/20 text-white' : 'bg-background-secondary dark:bg-background text-text-muted'}`}>
-                  {count}
-                </span>
-              </motion.button>
-            );
-          })}
+        <div className="max-w-2xl mx-auto overflow-x-auto scrollbar-hide">
+          <div className="flex gap-2 flex-nowrap whitespace-nowrap pb-1">
+            {CATEGORIES.map(cat => {
+              const count = cat.id === 'all' ? RULES.length : RULES.filter(r => r.category === cat.id).length;
+              const isActive = activeCategory === cat.id;
+              return (
+                <motion.button key={cat.id} onClick={() => setActiveCategory(cat.id)} whileTap={{ scale: 0.95 }}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all shrink-0 ${
+                    isActive ? 'bg-blue-500 border-blue-500 text-white shadow-md' : 'bg-white dark:bg-background-secondary border-border text-text-secondary hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
+                  }`}
+                >
+                  <span>{cat.emoji}</span>
+                  <span>{cat.label}</span>
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${isActive ? 'bg-white/20 text-white' : 'bg-background-secondary dark:bg-background text-text-muted'}`}>
+                    {count}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
       </section>
 

@@ -154,7 +154,7 @@ export default function PlayPage() {
                       <p className="text-sm text-text-secondary leading-relaxed">{platform.description}</p>
 
                       {/* Features */}
-                      <div className="grid grid-cols-2 gap-1.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                         {platform.features.map((f) => (
                           <div key={f} className="flex items-center gap-1.5 text-xs text-text-secondary">
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
@@ -200,7 +200,7 @@ export default function PlayPage() {
           <h2 className="font-bold text-text-primary flex items-center gap-2">
             <span>💡</span> Tips for Your First Real Games
           </h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {[
               { icon: '🧠', tip: 'Apply your opening principles every game — control the center, develop pieces, castle early.' },
               { icon: '⏳', tip: 'Start with 10+0 or 15+10 time controls. Bullet chess is fun later, but slow games help you learn.' },
