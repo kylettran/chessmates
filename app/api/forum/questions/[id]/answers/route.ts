@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { writeClient } from '@/lib/sanity';
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit';
+import { sanitizeBody, isValidDocumentId } from '@/lib/sanitize';
 
 export async function POST(
   req: NextRequest,
@@ -17,11 +18,17 @@ export async function POST(
   if (!rl.success) return rateLimitResponse(rl);
 
   const { id: questionId } = await params;
+
+  if (!isValidDocumentId(questionId)) {
+    return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 });
+  }
+
   const body = await req.json();
   const { body: answerBody } = body;
 
-  if (!answerBody?.trim()) {
-    return NextResponse.json({ error: 'Answer body is required' }, { status: 400 });
+  const cleanBody = sanitizeBody(answerBody);
+  if (!cleanBody) {
+    return NextResponse.json({ error: 'Answer body is required (max 5000 characters)' }, { status: 400 });
   }
 
   const clerk = await clerkClient();
@@ -38,7 +45,7 @@ export async function POST(
     _id:           crypto.randomUUID(),
     _type:         'forumAnswer',
     questionId,
-    body:          answerBody.trim(),
+    body:          cleanBody,
     authorClerkId: userId,
     authorName,
     authorImageUrl: user.imageUrl ?? '',

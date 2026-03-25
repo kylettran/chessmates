@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { writeClient, readClient } from '@/lib/sanity';
+import { isValidDocumentId } from '@/lib/sanitize';
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+
+  if (!isValidDocumentId(id)) {
+    return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 });
+  }
 
   try {
     const [question, answers] = await Promise.all([
@@ -41,6 +46,11 @@ export async function PATCH(
   }
 
   const { id } = await params;
+
+  if (!isValidDocumentId(id)) {
+    return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 });
+  }
+
   const body = await req.json();
   const { isPinned, isAnswered } = body;
 

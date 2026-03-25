@@ -24,6 +24,11 @@ const securityHeaders = [
   { key: 'X-Download-Options', value: 'noopen' },
   // Disable cross-origin resource sharing for embedded objects.
   { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
+  // CSP frame-ancestors: prevent any third-party site from embedding this app
+  // in an iframe (clickjacking defence, alongside X-Frame-Options above).
+  // Intentionally scoped — a full script-src CSP is skipped because Clerk
+  // requires complex 'unsafe-inline' allowances for its auth modal flows.
+  { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
 ];
 
 const nextConfig: NextConfig = {
