@@ -9,6 +9,7 @@ export interface ForumQuestion {
   authorName: string;
   authorImageUrl?: string;
   upvotes: number;
+  upvoterIds?: string[];
   isAnswered: boolean;
   isPinned: boolean;
   answerCount?: number;

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { writeClient } from '@/lib/sanity';
-import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rate-limit';
+import { writeClient, readClient } from '@/lib/sanity';
+import { rateLimit, rateLimitResponse } from '@/lib/rate-limit';
+import { isValidDocumentId } from '@/lib/sanitize';
 
 export async function POST(
   req: NextRequest,
@@ -19,16 +20,33 @@ export async function POST(
 
   const { id } = await params;
 
-  // Basic ID validation — Sanity document IDs are alphanumeric + hyphens.
-  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+  if (!isValidDocumentId(id)) {
     return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 });
   }
 
   try {
+    // Fetch current voter list to enforce one vote per user per question.
+    const question = await readClient.fetch<{ upvoterIds?: string[] } | null>(
+      `*[_type == "forumQuestion" && _id == $id][0]{ upvoterIds }`,
+      { id }
+    );
+
+    if (!question) {
+      return NextResponse.json({ error: 'Question not found' }, { status: 404 });
+    }
+
+    if (Array.isArray(question.upvoterIds) && question.upvoterIds.includes(userId)) {
+      return NextResponse.json({ error: 'Already upvoted' }, { status: 409 });
+    }
+
+    // Atomically add userId to upvoterIds and increment the counter.
     const updated = await writeClient
       .patch(id)
+      .setIfMissing({ upvoterIds: [] })
+      .append('upvoterIds', [userId])
       .inc({ upvotes: 1 })
       .commit();
+
     return NextResponse.json({ upvotes: updated.upvotes });
   } catch (err) {
     console.error('Upvote error:', err);

@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const query = `*[${filter}] | order(isPinned desc, _createdAt desc) {
     _id, _type, _createdAt, title, body, category,
     authorClerkId, authorName, authorImageUrl,
-    upvotes, isAnswered, isPinned,
+    upvotes, upvoterIds, isAnswered, isPinned,
     "answerCount": count(*[_type == "forumAnswer" && questionId == ^._id]),
     "hasAdminAnswer": count(*[_type == "forumAnswer" && questionId == ^._id && isAdminAnswer == true]) > 0
   }`;

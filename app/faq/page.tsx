@@ -81,7 +81,10 @@ function QuestionCard({
   const [loadingAnswers, setLoadingAnswers] = useState(false);
   const [answerBody, setAnswerBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [upvoted, setUpvoted]       = useState(false);
+  // Initialize from server data so upvoted state survives page reloads.
+  const [upvoted, setUpvoted]       = useState(
+    () => Array.isArray(question.upvoterIds) && !!currentUserId && question.upvoterIds.includes(currentUserId)
+  );
   const [upvoteCount, setUpvoteCount] = useState(question.upvotes);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -106,9 +109,15 @@ function QuestionCard({
   const handleUpvote = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (upvoted) return;
+    // Optimistic update
     setUpvoted(true);
     setUpvoteCount(c => c + 1);
-    await fetch(`/api/forum/questions/${question._id}/upvote`, { method: 'POST' });
+    const res = await fetch(`/api/forum/questions/${question._id}/upvote`, { method: 'POST' });
+    if (!res.ok) {
+      // Roll back on failure (409 = already voted, other errors)
+      setUpvoted(res.status === 409); // stay "upvoted" if 409, else reset
+      if (res.status !== 409) setUpvoteCount(c => c - 1);
+    }
   };
 
   const handleSubmitAnswer = async (e: React.FormEvent) => {
