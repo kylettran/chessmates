@@ -1,6 +1,8 @@
 import { createClient } from '@sanity/client';
 
-export const writeClient = createClient({
+// Single authenticated client — used for ALL reads and writes.
+// useCdn: false ensures we never get stale CDN-cached data.
+export const sanityClient = createClient({
   projectId: 'y9qb1k3m',
   dataset: 'production',
   apiVersion: '2024-01-01',
@@ -8,9 +10,6 @@ export const writeClient = createClient({
   token: process.env.SANITY_API_WRITE_TOKEN,
 });
 
-export const readClient = createClient({
-  projectId: 'y9qb1k3m',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: true,
-});
+// Aliases so existing imports don't break
+export const readClient  = sanityClient;
+export const writeClient = sanityClient;

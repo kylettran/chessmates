@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { writeClient } from '@/lib/sanity';
 
 export async function POST(
@@ -12,7 +12,6 @@ export async function POST(
   }
 
   const { id: questionId } = await params;
-  const user = await currentUser();
   const body = await req.json();
   const { body: answerBody } = body;
 
@@ -20,9 +19,12 @@ export async function POST(
     return NextResponse.json({ error: 'Answer body is required' }, { status: 400 });
   }
 
-  const authorName = user?.fullName
-    || `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim()
-    || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0]
+  const clerk = await clerkClient();
+  const user = await clerk.users.getUser(userId);
+
+  const authorName = user.fullName
+    || `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+    || user.emailAddresses?.[0]?.emailAddress?.split('@')[0]
     || 'Anonymous';
 
   const isAdminAnswer = userId === process.env.ADMIN_CLERK_USER_ID;
@@ -34,7 +36,7 @@ export async function POST(
     body:          answerBody.trim(),
     authorClerkId: userId,
     authorName,
-    authorImageUrl: user?.imageUrl ?? '',
+    authorImageUrl: user.imageUrl ?? '',
     isAdminAnswer,
     upvotes:       0,
   };

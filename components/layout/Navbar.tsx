@@ -15,6 +15,8 @@ const NAV_LINKS = [
   { href: '/play', label: 'Play Chess', emoji: '🎮' },
 ];
 
+const PROFILE_LINK = { href: '/profile', label: 'My Profile', emoji: '👤' };
+
 export function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -128,6 +130,26 @@ export function Navbar() {
                   </motion.div>
                 );
               })}
+              {isSignedIn && (
+                <motion.div
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: NAV_LINKS.length * 0.05 }}
+                >
+                  <Link
+                    href={PROFILE_LINK.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                      pathname.startsWith(PROFILE_LINK.href)
+                        ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                        : 'text-text-secondary hover:bg-background-secondary hover:text-text-primary'
+                    }`}
+                  >
+                    <span className="text-lg">{PROFILE_LINK.emoji}</span>
+                    <span>{PROFILE_LINK.label}</span>
+                  </Link>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { writeClient, readClient } from '@/lib/sanity';
 
 export async function GET(req: NextRequest) {
@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Sign in to ask a question' }, { status: 401 });
   }
 
-  const user = await currentUser();
   const body = await req.json();
   const { title, body: questionBody, category } = body;
 
@@ -50,12 +49,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Title, body, and category are required' }, { status: 400 });
   }
 
-  const authorName = user?.fullName
-    || `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim()
-    || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0]
+  const clerk = await clerkClient();
+  const user = await clerk.users.getUser(userId);
+
+  const authorName = user.fullName
+    || `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+    || user.emailAddresses?.[0]?.emailAddress?.split('@')[0]
     || 'Anonymous';
 
-  const authorImageUrl = user?.imageUrl ?? '';
+  const authorImageUrl = user.imageUrl ?? '';
 
   const doc = {
     _id:            crypto.randomUUID(),
