@@ -458,11 +458,17 @@ export default function FaqPage() {
   const [search, setSearch]                 = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [showModal, setShowModal]           = useState(false);
+  const [isAdmin, setIsAdmin]               = useState(false);
 
-  const isAdmin = isLoaded && !!user && (
-    user.id === process.env.NEXT_PUBLIC_ADMIN_CLERK_USER_ID ||
-    user.primaryEmailAddress?.emailAddress === process.env.NEXT_PUBLIC_ADMIN_EMAIL
-  );
+  // Fetch admin status server-side so ADMIN_CLERK_USER_ID never appears in
+  // the client JS bundle (it lives only in process.env on the server).
+  useEffect(() => {
+    if (!isLoaded || !user) return;
+    fetch('/api/me')
+      .then(r => r.json())
+      .then(data => setIsAdmin(data.isAdmin === true))
+      .catch(() => {});
+  }, [isLoaded, user]);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 350);

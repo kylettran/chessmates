@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { writeClient, readClient } from '@/lib/sanity';
+import { rateLimit, rateLimitResponse } from '@/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -41,6 +42,10 @@ export async function POST(req: NextRequest) {
   if (!userId) {
     return NextResponse.json({ error: 'Sign in to ask a question' }, { status: 401 });
   }
+
+  // Rate limit: 5 new questions per user per hour.
+  const rl = rateLimit(`question:${userId}`, { limit: 5, windowMs: 60 * 60_000 });
+  if (!rl.success) return rateLimitResponse(rl);
 
   const body = await req.json();
   const { title, body: questionBody, category } = body;

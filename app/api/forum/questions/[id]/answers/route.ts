@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { writeClient } from '@/lib/sanity';
+import { rateLimit, rateLimitResponse } from '@/lib/rate-limit';
 
 export async function POST(
   req: NextRequest,
@@ -10,6 +11,10 @@ export async function POST(
   if (!userId) {
     return NextResponse.json({ error: 'Sign in to post an answer' }, { status: 401 });
   }
+
+  // Rate limit: 20 answers per user per hour.
+  const rl = rateLimit(`answer:${userId}`, { limit: 20, windowMs: 60 * 60_000 });
+  if (!rl.success) return rateLimitResponse(rl);
 
   const { id: questionId } = await params;
   const body = await req.json();
