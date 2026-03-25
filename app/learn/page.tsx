@@ -405,7 +405,7 @@ function LessonCard({
 
                   {/* Board */}
                   {current.boardState && (
-                    <div className="shrink-0">
+                    <div className="shrink-0 overflow-x-auto max-w-full">
                       <LessonBoard
                         boardState={current.boardState}
                         highlightedSquares={current.highlightedSquares}

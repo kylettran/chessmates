@@ -1195,25 +1195,27 @@ export default function RulesPage() {
       </section>
 
       {/* Category filter */}
-      <section className="px-4 sm:px-6 pb-6">
-        <div className="max-w-2xl mx-auto flex gap-2 flex-wrap">
-          {CATEGORIES.map(cat => {
-            const count = cat.id === 'all' ? RULES.length : RULES.filter(r => r.category === cat.id).length;
-            const isActive = activeCategory === cat.id;
-            return (
-              <motion.button key={cat.id} onClick={() => setActiveCategory(cat.id)} whileTap={{ scale: 0.95 }}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${
-                  isActive ? 'bg-blue-500 border-blue-500 text-white shadow-md' : 'bg-white dark:bg-background-secondary border-border text-text-secondary hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
-                }`}
-              >
-                <span>{cat.emoji}</span>
-                <span>{cat.label}</span>
-                <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${isActive ? 'bg-white/20 text-white' : 'bg-background-secondary dark:bg-background text-text-muted'}`}>
-                  {count}
-                </span>
-              </motion.button>
-            );
-          })}
+      <section className="pb-6">
+        <div className="overflow-x-auto scrollbar-hide px-4 sm:px-6">
+          <div className="max-w-2xl mx-auto flex gap-2 w-max sm:w-auto sm:flex-wrap">
+            {CATEGORIES.map(cat => {
+              const count = cat.id === 'all' ? RULES.length : RULES.filter(r => r.category === cat.id).length;
+              const isActive = activeCategory === cat.id;
+              return (
+                <motion.button key={cat.id} onClick={() => setActiveCategory(cat.id)} whileTap={{ scale: 0.95 }}
+                  className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all whitespace-nowrap min-h-[40px] ${
+                    isActive ? 'bg-blue-500 border-blue-500 text-white shadow-md' : 'bg-white dark:bg-background-secondary border-border text-text-secondary hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
+                  }`}
+                >
+                  <span>{cat.emoji}</span>
+                  <span>{cat.label}</span>
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${isActive ? 'bg-white/20 text-white' : 'bg-background-secondary dark:bg-background text-text-muted'}`}>
+                    {count}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
       </section>
 

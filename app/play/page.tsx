@@ -154,7 +154,7 @@ export default function PlayPage() {
                       <p className="text-sm text-text-secondary leading-relaxed">{platform.description}</p>
 
                       {/* Features */}
-                      <div className="grid grid-cols-2 gap-1.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                         {platform.features.map((f) => (
                           <div key={f} className="flex items-center gap-1.5 text-xs text-text-secondary">
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
